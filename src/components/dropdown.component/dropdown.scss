@@ -1,0 +1,37 @@
+.ff-dropdownwrapper {
+    & .ff-dropdown-searchwrapper {
+        border: 1px solid grey;
+        border-radius: 4px;
+        &.ff-active {
+            border-radius: 4px 4px 0 0;
+        }
+    }
+    & .ff-dropdown-searchbox {
+        border: none;
+        padding: 8px 7px;
+        outline: none;
+        font-size: 16px;
+    }
+    & .ff-dropdown-icon {
+        font-size: 20px;
+    }
+    & .ff-dropdown-selectwrapper {
+        border: 1px solid grey;
+        background-color: #fff;
+        z-index: 10;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+    }
+    & .ff-dropdown-item {
+        padding: 8px 16px;
+        &:hover {
+            color: blue;
+        }
+    }
+    & .ff-disabled {
+        color: grey;
+        &:hover {
+            color: grey;
+        }
+    }
+}
