@@ -4,6 +4,7 @@ import DropDown from '../dropdown.component/dropdown';
 import Loader from '../loader.component/loader';
 import Axios from 'axios';
 import './dashboard.scss';
+import Header from '../header.component/header';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class Dashboard extends Component {
             timeTaken: 0
         }
     }
+
     componentDidMount() {
         Promise.all([
             Axios.get('https://findfalcone.herokuapp.com/planets'),
@@ -101,26 +103,34 @@ class Dashboard extends Component {
         return this.state.selectedPlanets.findIndex(i => i == null) != -1 || this.state.selectedVehicles.findIndex(i => i == null) != -1
         ? true : false;
     }
+    resetHandler = () => this.setState({
+        selectedPlanets: [null, null, null, null],
+        selectedVehicles: [null, null, null, null],
+        timeTaken: 0
+    });
     render() {
         return (
             <>
             {
                 this.state.planets ? 
-                <div className="ff-dashboard-wrapper flex flex-column full-height">
-                    <header className="text-align-center margin-bottom-15">Select Planets you want to search in: </header>
-                    <div className="flex flex-row justify-content-spacebetween flex-grow">
-                        {
-                            this.renderDD()
-                        }
-                        <div className="ff-text-header">Time Taken: {this.state.timeTaken}</div>
+                <>
+                    <Header resetHandler={this.resetHandler} />
+                    <div className="ff-dashboard-wrapper flex flex-column full-height">
+                        <header className="text-align-center margin-bottom-15">Select Planets you want to search in: </header>
+                        <div className="flex flex-row justify-content-spacebetween flex-grow">
+                            {
+                                this.renderDD()
+                            }
+                            <div className="ff-text-header">Time Taken: {this.state.timeTaken}</div>
+                        </div>
+                        <footer className="text-align-center margin-bottom-15">
+                            <button 
+                            className="cursor-pointer"
+                            onClick={() => this.props.findFalcone(this.state.selectedPlanets, this.state.selectedVehicles, this.state.timeTaken)}
+                            disabled={this.isDisabled()}>Find Falcone!</button>
+                        </footer>
                     </div>
-                    <footer className="text-align-center margin-bottom-15">
-                        <button 
-                        className="cursor-pointer"
-                        onClick={() => this.props.findFalcone(this.state.selectedPlanets, this.state.selectedVehicles, this.state.timeTaken)}
-                        disabled={this.isDisabled()}>Find Falcone!</button>
-                    </footer>
-                </div>
+                </>
                 :
                 <Loader size={2}/>
             }
